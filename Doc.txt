@@ -30,3 +30,9 @@ dotnet pack MonPackage.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snup
 
 nuget pack MySharedAssembly.1.0.3.nuspec -Symbols -SymbolPackageFormat snupkg // ne marche pas
 dotnet pack MySharedAssembly.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+
+
+
+	<!-- https://github.com/WinAlgo/MySharedAssemblies -->
+
+
