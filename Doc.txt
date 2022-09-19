@@ -1,0 +1,32 @@
+Générer un fichier nuget.config
+- Déclarer les packages sources
+- Déclarer le mapping vers package source
+	- Déclarer un modèle de préfixe de package
+	- Modèle d'ID de package
+
+De manière automatique :
+	- Utiliser l'outil "Nuget.PageSourceMapper"
+
+
+Utilisation du serveur de symboles NuGet.org qui ne prend en charge que les packages de symboles snupkg
+Contraintes :
+- Seules les extensions de fichier suivantes sont autorisées dans les packages de symboles : .pdb, .nuspec, .xml, .psmdcp, .rels,.p7s
+- Seuls les PDB portables gérés sont pris en charge sur le serveur de symboles de NuGet.org.
+- Les PDB et leurs DLL .nupkg associées doivent être construits avec le compilateur dans Visual Studio version 15.9 ou supérieure (voir PDB crypto hash)
+
+Les packages de symboles publiés sur NuGet.org échoueront à la validation si ces contraintes ne sont pas respectées.
+
+******************************************************
+https://blog.inedo.com/how-to-debug-nuget-packages-the-painless-way
+******************************************************
+Créer un package Nuget de symboles (package Nuget qui contient les fichiers PDB)
+=> Package Nuget d'extenson .symboles.nupkg (packages de symboles hérités) 
+pack nuget.exe MonPackage.nuspec -Symboles pack nuget.exe MonProjet.csproj -Symboles
+
+ou .snupkg ("nouveau" format et peuvent être créés en spécifiant le SymbolPackageFormat sur la CLI nuget.exe ou la CLI dotnet)
+nuget pack MonPackage.nuspec -Symbols -SymbolPackageFormat snupkg
+nuget pack MonPackage.csproj -Symbols -SymbolPackageFormat snupkg
+dotnet pack MonPackage.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+
+nuget pack MySharedAssembly.1.0.3.nuspec -Symbols -SymbolPackageFormat snupkg // ne marche pas
+dotnet pack MySharedAssembly.csproj -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
